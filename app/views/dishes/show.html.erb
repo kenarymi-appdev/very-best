@@ -1,6 +1,3 @@
-
-
-
 <!-- TEST -->
 <div class="container mt-4">
 
@@ -42,33 +39,27 @@
               </button>
             </form>
             <small class="float-right text-muted">
-              <%= time_ago_in_words(@dish.created_at) %>
+              right now
             </small>
           </li>
-
-          <% @dish.specialists.each do |venue| %>
-            <li class="list-group-item">
-              <p>
-                <a href="/venues/<%= venue.id %>">
-                  <%= venue.name %>
+          <% Bookmark.where(user_id: current_user.id, dish_id: @dish.id).each do |bookmark| %>
+          <li class="list-group-item">
+            <p>
+              <a href="/venues/<%= bookmark.venue_id %>">
+                <%= Venue.find(bookmark.venue_id).name %>
+              </a>
+              <small class="float-right text-muted">
+                <%= time_ago_in_words(bookmark.created_at) %> ago
+                <a href="/bookmarks/<%= bookmark.id %>/edit">
+                  <i class="fa fa-fw fa-edit"></i>
                 </a>
-
-                <small class="float-right text-muted">
-                  <%= time_ago_in_words(venue.created_at) %> ago
-                <% end %>
-                <% @dish.bookmarks.each do |bookmark| %>
-                  <a href="/bookmarks/<%= bookmark.id %>/edit">
-                    <i class="fa fa-fw fa-edit"></i>
-                  </a>
-
-                  <a href="/delete_bookmark/<%= bookmark.id %>">
-                    <i class="fa fa-fw fa-trash-o"></i>
-                  </a>
-                </small>
-              </p>
-            <% end %>
-
+                <a href="/delete_bookmark/<%= bookmark.id %>">
+                  <i class="fa fa-fw fa-trash-o"></i>
+                </a>
+              </small>
+            </p>
           </li>
+          <% end %>
         </ul>
 
         <div class="card-footer text-center">
