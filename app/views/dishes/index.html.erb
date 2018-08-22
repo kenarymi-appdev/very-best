@@ -1,5 +1,7 @@
 
+
   <div class="container mt-4">
+
 
 
     <div class="row mb-1">
@@ -51,6 +53,20 @@
                 });
             });
           </script>
+
+          <% @cuisines.each do |cuisine| %>
+            <div class="form-group">
+             <%= cuisine.name %> 
+             
+             <%= check_box_tag("q[cuisine_id_eq_any][]", cuisine.id) %>
+             
+             </div>
+            
+               <%end%>
+             
+            <%= f.label :cuisine_name_cont, "Cuisine name contains" %>
+            <%= f.text_field :cuisine_name_cont, :class => "form-control", :placeholder => "Cuisine name contains" %>
+         
 
           <div class="form-group">
             <%= f.label :cuisine_name_cont, "Cuisine name contains" %>
@@ -109,6 +125,7 @@
                   </a>
                 </td>
 
+
                 <td>
                   <form action="/create_bookmark" class="form-inline float-left" method="post">
                     <!-- Hidden input for authenticity token to protect from forgery -->
@@ -126,6 +143,27 @@
 
                       <%= select_tag(:venue_id, options_from_collection_for_select(Venue.all, :id, :name), :class => "form-control") %>
                     </div>
+
+
+
+                <td>
+                  <form action="/create_bookmark" class="form-inline float-left" method="post">
+                    <!-- Hidden input for authenticity token to protect from forgery -->
+                    <input name="authenticity_token" type="hidden" value="YzXDxUYe+uTniJlM+rFjq/HdKvrA895P04WDS+AMbO7uFKhNWWnsj0DSt53CASfr9yNd2dOsuleUjgpph1lkVQ==">
+
+
+                    <input type="hidden" name="dish_id" value="<%= dish.id %>">
+                    <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+                    <!-- Label and input for venue_id -->
+                    <div class="form-group mr-sm-1">
+                      <label for="venue_id" class="control-label sr-only">
+                        Venue
+                      </label>
+
+                      <%= select_tag(:venue_id, options_from_collection_for_select(Venue.all, :id, :name), :class => "form-control") %>
+                    </div>
+
 
                     <button class="btn btn-primary btn">
                       <i class="fa fa-heart"></i>
@@ -158,3 +196,11 @@
   </div>
 
 </div>
+
+
+
+
+
+
+
+
